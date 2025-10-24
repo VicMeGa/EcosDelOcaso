@@ -22,7 +22,6 @@ except pygame.error as e:
     print(f"Error al cargar la música: {e}")
 
 try:
-    # 🌟 Carga ÚNICA del sonido en una variable global o una constante 🌟
     ENEMY_DEATH_SOUND = pygame.mixer.Sound('source/sfx/punch.mp3')
     PLAYER_DEATH_SOUND = pygame.mixer.Sound('source/sfx/diePlayer.wav')
 except pygame.error as e:
@@ -32,6 +31,8 @@ except pygame.error as e:
 # Colores
 WHITE = (255,255,255)
 GRAY = (100,100,100)
+
+
 collision_tiles = []
 # --- CARGAR VARIOS MAPAS ---
 #map_files = ['mapa/nivel2_0.tmx', 'mapa/nivel2_1.tmx']
@@ -43,6 +44,7 @@ zonas = [
 ]
 
 zona_actual = 0
+
 def cargar_zona(zona_idx):
     global mapas, map_offsets, mapas_y_offsets, tmx_data, collision_tiles, MAP_WIDTH, MAP_HEIGHT
     mapas = [load_pygame(f) for f in zonas[zona_idx]]
@@ -101,10 +103,6 @@ def cargar_enemigos_zona(mapas_y_offsets, enemigos_sprites):
 
 
 def cargar_boss_zona(mapas_y_offsets, bosses_sprites):
-    """
-    Carga bosses desde la capa 'boss' de cada mapa uwu.
-    Usa los offsets que ya están precomputados por cargar_zona().
-    """
     bosses_sprites.empty()
 
     for mapa, offset_x in mapas_y_offsets:
@@ -114,11 +112,11 @@ def cargar_boss_zona(mapas_y_offsets, bosses_sprites):
                 for obj in layer:
                     if zona_actual == 0:
                         sprite_set = "gorgona"
-                        video_path = "source/videos/finalNivel1.mp4"
+                        video_path = "source/videos/Primer jefe ecosdel.mp4"
                         minuz = 100
                     elif zona_actual == 1:
                         sprite_set = "boss2"
-                        video_path = "source/videos/fianlNivel2.mp4"
+                        video_path = "source/videos/fianl boss2.mp4"
                         minuz = 55
                     else:
                         sprite_set = "gorgona" 
@@ -319,10 +317,10 @@ def render_map(offset_x, offset_y, mapas_y_offsets=None):
                         pos_y += TILESIZE - tile_height
                         screen.blit(tile, (pos_x, pos_y))
 
+
 if 'MUSIC_FILE' in locals() and not pygame.mixer.music.get_busy():
-    # El valor -1 indica bucle infinito. El 0.0 indica iniciar desde el principio.
     pygame.mixer.music.play(-1, 0.0) 
-    pygame.mixer.music.set_volume(0.3)  # 30% de volumen, bajito uwu
+    pygame.mixer.music.set_volume(0.40)
     print("Reproduciendo música de fondo...")
 
 # 👹 Grupo de bosses
@@ -332,7 +330,7 @@ bosses_sprites = pygame.sprite.Group()
 cargar_boss_zona(mapas_y_offsets, bosses_sprites)
 # --- BUCLE PRINCIPAL ---
 
-reproducir_video_intro("source/videos/inicio.mp4")
+reproducir_video_intro("source/videos/incio2.mp4")
 
 running = True
 while running:
@@ -418,6 +416,7 @@ while running:
 
     # --- DIBUJAR MAPAS CONTINUOS ---
     render_map(camera_x_offset, camera_y_offset, mapas_y_offsets)
+    
     if player.rect.x > MAP_WIDTH - 50:  # Ajusta margen si quieres
         fade_out()
         zona_actual += 1
@@ -430,7 +429,9 @@ while running:
         else:
             print("¡Fin del juego uwu!")
             running = False
+
     bosses_sprites.update(collision_tiles, player)
+
     for boss in bosses_sprites:
         draw_x = boss.rect.x + camera_x_offset
         draw_y = boss.rect.y + camera_y_offset

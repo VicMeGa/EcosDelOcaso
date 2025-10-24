@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "nivel2_1.tmx",
+    "activeFile": "nivel1_0.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -13,6 +13,7 @@
             "scaleInEditor": 1
         },
         "background.tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 0.015625,
             "scaleInEditor": 1
         },
@@ -24,7 +25,7 @@
         "fire.tsx": {
             "dynamicWrapping": true,
             "scaleInDock": 0.125,
-            "scaleInEditor": 1
+            "scaleInEditor": 0.1818
         },
         "forestdark.tsx": {
             "dynamicWrapping": false,
@@ -46,7 +47,7 @@
             "scale": 1,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 3109.5,
+                "x": 651,
                 "y": 334.5
             }
         },
@@ -58,8 +59,8 @@
             "scale": 0.75,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 1284.6666666666665,
-                "y": 220.66666666666663
+                "x": 1600.6666666666665,
+                "y": 303.3333333333333
             }
         },
         "nivel2_0.tmx": {
@@ -75,13 +76,14 @@
         },
         "nivel2_1.tmx": {
             "expandedObjectLayers": [
+                7,
                 6
             ],
             "scale": 0.75,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 2348.6666666666665,
-                "y": 481.99999999999994
+                "x": 1600.6666666666665,
+                "y": 303.3333333333333
             }
         },
         "objetos.tsx": {
@@ -90,6 +92,7 @@
             "scaleInEditor": 1
         },
         "tiles.tsx": {
+            "dynamicWrapping": true,
             "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
@@ -120,18 +123,18 @@
     "project": "sin nombre.tiled-project",
     "property.type": "int",
     "recentFiles": [
-        "nivel1_0.tmx",
-        "nivel1_1.tmx",
-        "objetos.tsx",
-        "mapa.tmx",
-        "building.tsx",
-        "background.tsx",
-        "tiles.tsx",
-        "fire.tsx",
-        "nivel2_0.tmx",
-        "trees.tsx",
+        "nivel2_1.tmx",
         "abandoned.tsx",
-        "nivel2_1.tmx"
+        "trees.tsx",
+        "nivel2_0.tmx",
+        "fire.tsx",
+        "tiles.tsx",
+        "background.tsx",
+        "building.tsx",
+        "mapa.tmx",
+        "objetos.tsx",
+        "nivel1_1.tmx",
+        "nivel1_0.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.type": 1
