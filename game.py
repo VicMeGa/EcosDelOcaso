@@ -40,7 +40,9 @@ collision_tiles = []
 #
 zonas = [
     ['mapa/nivel1_0.tmx', 'mapa/nivel1_1.tmx'],
-    ['mapa/nivel2_0.tmx', 'mapa/nivel2_1.tmx']
+    ['mapa/nivel2_0.tmx', 'mapa/nivel2_1.tmx'],
+    ['mapa/nivel3_0.tmx', 'mapa/nivel3_1.tmx'],
+    ['mapa/nivel4_0.tmx', 'mapa/nivel4_1.tmx']
 ]
 
 zona_actual = 0
@@ -330,7 +332,7 @@ bosses_sprites = pygame.sprite.Group()
 cargar_boss_zona(mapas_y_offsets, bosses_sprites)
 # --- BUCLE PRINCIPAL ---
 
-reproducir_video_intro("source/videos/incio2.mp4")
+#reproducir_video_intro("source/videos/incio2.mp4")
 
 running = True
 while running:

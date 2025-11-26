@@ -9,6 +9,7 @@
     ],
     "fileStates": {
         "abandoned.tsx": {
+            "dynamicWrapping": true,
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
@@ -22,10 +23,17 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "chruch2.tsx": {
+            "scaleInDock": 0.125,
+            "scaleInEditor": 1
+        },
+        "church.tsx": {
+            "scaleInEditor": 0.0625
+        },
         "fire.tsx": {
             "dynamicWrapping": true,
             "scaleInDock": 0.125,
-            "scaleInEditor": 0.1818
+            "scaleInEditor": 1
         },
         "forestdark.tsx": {
             "dynamicWrapping": false,
@@ -44,11 +52,11 @@
             "expandedObjectLayers": [
                 10
             ],
-            "scale": 1,
+            "scale": 0.75,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 651,
-                "y": 334.5
+                "x": 1996.6666666666665,
+                "y": 174
             }
         },
         "nivel1_1.tmx": {
@@ -59,7 +67,7 @@
             "scale": 0.75,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 1600.6666666666665,
+                "x": 623.3333333333333,
                 "y": 303.3333333333333
             }
         },
@@ -76,14 +84,38 @@
         },
         "nivel2_1.tmx": {
             "expandedObjectLayers": [
-                7,
-                6
+                6,
+                7
             ],
             "scale": 0.75,
-            "selectedLayer": 5,
+            "selectedLayer": 6,
             "viewCenter": {
                 "x": 1600.6666666666665,
                 "y": 303.3333333333333
+            }
+        },
+        "nivel3_0.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 2550,
+                "y": 56.060606060606005
+            }
+        },
+        "nivel3_1.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 2039.3333333333333,
+                "y": 355.3333333333333
+            }
+        },
+        "nivel4_0.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 4615,
+                "y": 357
             }
         },
         "objetos.tsx": {
@@ -102,10 +134,10 @@
             "scaleInEditor": 1
         }
     },
-    "last.imagePath": "/run/media/victor/se/mis_programas/EcosDelOcaso/mapa/abandoned",
+    "last.imagePath": "/run/media/victor/se/mis_programas/EcosDelOcaso/mapa/cve/detailscave",
     "map.height": 19,
     "map.lastUsedFormat": "tmx",
-    "map.width": 100,
+    "map.width": 130,
     "openFiles": [
         "nivel1_0.tmx",
         "nivel1_1.tmx",
@@ -123,18 +155,18 @@
     "project": "sin nombre.tiled-project",
     "property.type": "int",
     "recentFiles": [
-        "nivel2_1.tmx",
+        "nivel1_1.tmx",
+        "nivel1_0.tmx",
+        "chruch2.tsx",
+        "church.tsx",
+        "objetos.tsx",
         "abandoned.tsx",
         "trees.tsx",
-        "nivel2_0.tmx",
         "fire.tsx",
         "tiles.tsx",
         "background.tsx",
         "building.tsx",
-        "mapa.tmx",
-        "objetos.tsx",
-        "nivel1_1.tmx",
-        "nivel1_0.tmx"
+        "mapa.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.type": 1
