@@ -42,7 +42,12 @@ zonas = [
     ['mapa/nivel1_0.tmx', 'mapa/nivel1_1.tmx'],
     ['mapa/nivel2_0.tmx', 'mapa/nivel2_1.tmx'],
     ['mapa/nivel3_0.tmx', 'mapa/nivel3_1.tmx'],
-    ['mapa/nivel4_0.tmx', 'mapa/nivel4_1.tmx']
+    ['mapa/nivel4_0.tmx', 'mapa/nivel4_1.tmx'],
+    ['mapa/nivel5_0.tmx'],
+    ['mapa/nivel5_1.tmx'],
+    ['mapa/nivel6_0.tmx', 'mapa/nivel6_1.tmx'],
+    ['mapa/nivel7_0.tmx', 'mapa/nivel7_1.tmx'],
+    ['mapa/nivel8_0.tmx'],
 ]
 
 zona_actual = 0
