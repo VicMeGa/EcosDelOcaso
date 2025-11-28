@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="100" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="100" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="5">
  <tileset firstgid="1" source="desrt.tsx"/>
  <tileset firstgid="99" source="tiles.tsx"/>
  <tileset firstgid="196" source="background.tsx"/>
@@ -95,4 +95,30 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="5" name="Enemy">
+  <object id="1" x="386" y="510">
+   <properties>
+    <property name="patrol_end" type="int" value="750"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="2" x="1180" y="504">
+   <properties>
+    <property name="patrol_end" type="int" value="1300"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="3" x="1746" y="508">
+   <properties>
+    <property name="patrol_end" type="int" value="1900"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="4" x="2316" y="504">
+   <properties>
+    <property name="patrol_end" type="int" value="3100"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
 </map>

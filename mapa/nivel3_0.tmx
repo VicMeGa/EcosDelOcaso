@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="100" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="100" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="19">
  <tileset firstgid="1" source="abandoned.tsx"/>
  <tileset firstgid="6" source="tiles.tsx"/>
  <tileset firstgid="103" source="church.tsx"/>
- <layer id="1" name="cielo" width="100" height="19" visible="0">
+ <layer id="1" name="cielo" width="100" height="19">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -141,6 +141,44 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="8" name="Enemy">
+  <object id="13" x="623" y="504">
+   <properties>
+    <property name="patrol_end" type="int" value="823"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="14" x="181" y="507">
+   <properties>
+    <property name="patrol_end" type="int" value="400"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="15" x="1079" y="509">
+   <properties>
+    <property name="patrol_end" type="int" value="1300"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="16" x="1675" y="510">
+   <properties>
+    <property name="patrol_end" type="int" value="1900"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="17" x="2512" y="510">
+   <properties>
+    <property name="patrol_end" type="int" value="2800"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="18" x="1942" y="509">
+   <properties>
+    <property name="patrol_end" type="int" value="2200"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
  <layer id="3" name="piso" width="100" height="19">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

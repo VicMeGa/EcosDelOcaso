@@ -8,6 +8,11 @@ class Boss(pygame.sprite.Sprite):
             lanid=8
             lande=4
             lanat=8
+        elif sprite_set== "kitsune":
+            lanw=8
+            lanid=8
+            lande=10
+            lanat=10
         else:
             lanw=7
             lanid=5

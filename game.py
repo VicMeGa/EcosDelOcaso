@@ -39,9 +39,9 @@ collision_tiles = []
 #mapas = [load_pygame(f) for f in map_files]
 #
 zonas = [
-    ['mapa/nivel1_0.tmx', 'mapa/nivel1_1.tmx'],
-    ['mapa/nivel2_0.tmx', 'mapa/nivel2_1.tmx'],
-    ['mapa/nivel3_0.tmx', 'mapa/nivel3_1.tmx'],
+    #['mapa/nivel1_0.tmx', 'mapa/nivel1_1.tmx'],
+    #['mapa/nivel2_0.tmx', 'mapa/nivel2_1.tmx'],
+    #['mapa/nivel3_0.tmx', 'mapa/nivel3_1.tmx'],
     ['mapa/nivel4_0.tmx', 'mapa/nivel4_1.tmx'],
     ['mapa/nivel5_0.tmx'],
     ['mapa/nivel5_1.tmx'],
@@ -92,7 +92,9 @@ def cargar_enemigos_zona(mapas_y_offsets, enemigos_sprites):
         print(f"🗺️ Procesando mapa con offset {offset_x}")
         for layer in tmx_data.layers:
             if isinstance(layer, pytmx.TiledObjectGroup):
+                #print("holaaaaa")
                 if layer.name == "Enemy":
+                    #print("si se encontro capa")
                     print(f"📦 Capa Enemy encontrada con {len(layer)} objetos")
                     for obj in layer:
                         x = obj.x + offset_x
@@ -117,7 +119,7 @@ def cargar_boss_zona(mapas_y_offsets, bosses_sprites):
             if layer.name.lower() == "boss":
                 print(f"🐍 Capa 'boss' detectada en mapa con offset {offset_x}")
                 for obj in layer:
-                    if zona_actual == 0:
+                    if zona_actual == 3:
                         sprite_set = "gorgona"
                         video_path = "source/videos/Primer jefe ecosdel.mp4"
                         minuz = 100
@@ -125,8 +127,14 @@ def cargar_boss_zona(mapas_y_offsets, bosses_sprites):
                         sprite_set = "boss2"
                         video_path = "source/videos/fianl boss2.mp4"
                         minuz = 55
+                    elif zona_actual == 0:
+                        sprite_set = "kitsune"
+                        video_path = "source/videos/fianl boss2.mp4"
+                        minuz = 100
                     else:
                         sprite_set = "gorgona" 
+                        video_path = "source/videos/fianl boss2.mp4"
+                        minuz = 55
                     # posición global del boss sumando offset
                     pos = (obj.x + offset_x, obj.y - minuz)
                     print(f"🧿 Boss colocado en {pos}")

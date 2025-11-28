@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="130" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="130" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="5">
  <tileset firstgid="1" source="cave.tsx"/>
  <tileset firstgid="16" source="tiles.tsx"/>
  <tileset firstgid="113" source="detailcave.tsx"/>
@@ -95,4 +95,30 @@
 108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108,108
 </data>
  </layer>
+ <objectgroup id="5" name="Enemy">
+  <object id="1" x="441.333" y="506.667">
+   <properties>
+    <property name="patrol_end" type="int" value="750"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="2" x="1093.33" y="510.667">
+   <properties>
+    <property name="patrol_end" type="int" value="1300"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="3" x="1886.67" y="508">
+   <properties>
+    <property name="patrol_end" type="int" value="2100"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="4" x="2752" y="509.333">
+   <properties>
+    <property name="patrol_end" type="int" value="3050"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
 </map>

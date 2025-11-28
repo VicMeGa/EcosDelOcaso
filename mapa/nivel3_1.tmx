@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="100" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="100" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="6">
  <tileset firstgid="1" source="church.tsx"/>
  <tileset firstgid="23" source="tiles.tsx"/>
  <layer id="1" name="Capa de patrones 1" width="100" height="19">
@@ -94,4 +94,38 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="5" name="Enemy">
+  <object id="1" x="202.667" y="496">
+   <properties>
+    <property name="patrol_end" type="int" value="700"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="2" x="850.667" y="501.333">
+   <properties>
+    <property name="patrol_end" type="int" value="1100"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="3" x="1429.33" y="496">
+   <properties>
+    <property name="patrol_end" type="int" value="1600"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="4" x="1901.33" y="500">
+   <properties>
+    <property name="patrol_end" type="int" value="2100"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="7" name="Boss">
+  <object id="5" x="2286.67" y="493.333">
+   <properties>
+    <property name="patrol_end" type="int" value="3180"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
 </map>
