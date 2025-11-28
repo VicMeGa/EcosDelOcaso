@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "background.tsx",
+    "activeFile": "menu.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -65,12 +65,25 @@
             "scaleInDock": 2,
             "scaleInEditor": 5.5
         },
+        "gui.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "mapa.tmx": {
             "scale": 0.33,
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 662.1212121212122,
                 "y": 756.0606060606061
+            }
+        },
+        "menu.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": -8.5,
+                "y": 288.5
             }
         },
         "nivel%_0.tmx": {
@@ -117,13 +130,13 @@
         },
         "nivel2_1.tmx": {
             "expandedObjectLayers": [
-                6,
-                7
+                7,
+                6
             ],
             "scale": 0.75,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 2909.333333333333,
+                "x": 1600,
                 "y": 303.3333333333333
             }
         },
@@ -179,19 +192,20 @@
             "scale": 0.33,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 2896.969696969697,
-                "y": 665.1515151515152
+                "x": 1600.0000000000002,
+                "y": 301.5151515151515
             }
         },
         "nivel5_1.tmx": {
             "expandedObjectLayers": [
+                7,
                 5
             ],
             "scale": 0.33,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 1912.121212121212,
-                "y": -234.84848484848476
+                "x": 1600.0000000000002,
+                "y": 304.5454545454546
             }
         },
         "nivel6_0.tmx": {
@@ -201,20 +215,20 @@
             "scale": 0.75,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 2825.333333333333,
-                "y": 459.33333333333337
+                "x": 1600,
+                "y": 303.3333333333333
             }
         },
         "nivel6_1.tmx": {
             "expandedObjectLayers": [
-                8,
-                9
+                9,
+                8
             ],
             "scale": 1,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 2794,
-                "y": 286.5
+                "x": 1600,
+                "y": 303.5
             }
         },
         "nivel7_0.tmx": {
@@ -224,27 +238,31 @@
             "scale": 0.5,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 2300,
-                "y": 279
+                "x": 1600,
+                "y": 303
             }
         },
         "nivel7_1.tmx": {
             "expandedObjectLayers": [
+                8,
                 7
             ],
             "scale": 0.75,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 2740,
-                "y": 371.3333333333333
+                "x": 1600,
+                "y": 303.3333333333333
             }
         },
         "nivel8_0.tmx": {
+            "expandedObjectLayers": [
+                7
+            ],
             "scale": 0.5,
-            "selectedLayer": 4,
+            "selectedLayer": 5,
             "viewCenter": {
-                "x": 398,
-                "y": 277
+                "x": 480,
+                "y": 303
             }
         },
         "objetos.tsx": {
@@ -253,6 +271,7 @@
             "scaleInEditor": 1
         },
         "ocean.tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 0.33,
             "scaleInEditor": 0.3415
         },
@@ -267,48 +286,37 @@
             "scaleInEditor": 1
         }
     },
-    "last.imagePath": "/run/media/victor/se/mis_programas/EcosDelOcaso/mapa/final",
+    "last.imagePath": "/run/media/victor/se/mis_programas/EcosDelOcaso/menu",
     "map.height": 19,
     "map.lastUsedFormat": "tmx",
-    "map.width": 70,
+    "map.width": 25,
     "openFiles": [
-        "nivel4_1.tmx",
         "nivel5_0.tmx",
         "nivel5_1.tmx",
-        "castle.tsx",
         "nivel6_0.tmx",
         "nivel6_1.tmx",
-        "tiles.tsx",
-        "trees.tsx",
-        "objetos.tsx",
-        "ocean.tsx",
-        "detailcave.tsx",
-        "chruch2.tsx",
-        "church.tsx",
-        "building.tsx",
-        "background.tsx",
-        "abandoned.tsx",
         "nivel7_0.tmx",
-        "desrt.tsx",
+        "nivel8_0.tmx",
         "nivel7_1.tmx",
-        "final.tsx",
-        "nivel8_0.tmx"
+        "nivel2_1.tmx",
+        "menu.tmx",
+        "gui.tsx"
     ],
     "project": "sin nombre.tiled-project",
     "property.type": "int",
     "recentFiles": [
+        "nivel5_0.tmx",
+        "nivel5_1.tmx",
+        "nivel6_0.tmx",
+        "nivel6_1.tmx",
+        "nivel7_0.tmx",
+        "nivel8_0.tmx",
+        "nivel7_1.tmx",
+        "nivel2_1.tmx",
+        "gui.tsx",
+        "menu.tmx",
         "nivel4_0.tmx",
-        "nivel4_1.tmx",
-        "nivel2_0.tmx",
-        "nivel3_0.tmx",
-        "nivel3_1.tmx",
-        "final.tsx",
-        "desrt.tsx",
-        "abandoned.tsx",
-        "background.tsx",
-        "building.tsx",
-        "church.tsx",
-        "chruch2.tsx"
+        "nivel4_1.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.type": 1

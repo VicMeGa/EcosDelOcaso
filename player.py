@@ -18,6 +18,9 @@ class Player(pygame.sprite.Sprite):
         self.jumping = False
         self.alive = True
         self.health = 5 
+        self.death_index = 0
+        self.death_anim_finished = False
+
         # Dimensiones del personaje (las mismas que usaste para correr/atacar)
         PLAYER_SIZE = (40, 50) 
 
@@ -55,6 +58,9 @@ class Player(pygame.sprite.Sprite):
         dx = 0
         dy = 0
 
+        if not self.alive:
+            return
+
         # Movimiento horizontal
         if keys[pygame.K_LEFT]:
             dx = -self.speed
@@ -89,46 +95,72 @@ class Player(pygame.sprite.Sprite):
         self.moving = moving
 
     def animate(self):
-        # La lógica de animación debe priorizar el ataque
-        if self.alive:
-            if self.attacking:
-                # Animación de ataque
-                self.attack_index += 0.3 # Ajusta la velocidad de animación a tu gusto
-                
-                if self.attack_index >= len(self.attack_right):
-                    self.attack_index = 0
-                    self.attacking = False # EL ATAQUE TERMINA SOLO AQUÍ, una vez finalizada la animación.
-                
-                # Dibujar el frame de ataque
-                current_frame = int(self.attack_index)
-                if self.direction == "right":
-                    self.image = self.attack_right[current_frame]
-                else:
-                    self.image = self.attack_left[current_frame]
-            elif self.jumping:
-                # Está subiendo
-                if self.vel_y < 0:
-                    if self.direction == "right":
-                        self.image = self.jump_up_right
-                    else:
-                        self.image = self.jump_up_left
-                # Está bajando
-                elif self.vel_y > 0:
-                    if self.direction == "right":
-                        self.image = self.jump_down_right
-                    else:
-                        self.image = self.jump_down_left
-                        
-            # Animación de correr/reposo (solo si no estamos atacando)
-            elif self.moving:
-                self.index += 0.2
-                if self.index >= len(self.run_right):
-                    self.index = 0
-                self.image = self.run_right[int(self.index)] if self.direction == "right" else self.run_left[int(self.index)]
-            else:
+        # 💀 PRIORIDAD MÁXIMA — Animación de muerte
+        if not self.alive:
+            if not self.death_anim_finished:
+                self.death_index += 0.2
+
+                if self.death_index >= len(self.dead):
+                    self.death_index = len(self.dead) - 1
+                    self.death_anim_finished = True  # terminó animación
+
+                self.image = pygame.transform.scale(
+                    self.dead[int(self.death_index)], (40, 50)
+                )
+            return  # no dejar que haga otra animación
+
+        # ✨ Animación de ataque
+        if self.attacking:
+            self.attack_index += 0.3
+
+            if self.attack_index >= len(self.attack_right):
+                self.attack_index = 0
+                self.attacking = False
+
+            frame = int(self.attack_index)
+            self.image = (
+                self.attack_right[frame]
+                if self.direction == "right"
+                else self.attack_left[frame]
+            )
+            return  # importantísimo: no pase a correr / saltar mientras ataca
+
+        # ✨ Animaciones de salto
+        if self.jumping:
+            if self.vel_y < 0:  # sube
+                self.image = (
+                    self.jump_up_right
+                    if self.direction == "right"
+                    else self.jump_up_left
+                )
+            else:  # baja
+                self.image = (
+                    self.jump_down_right
+                    if self.direction == "right"
+                    else self.jump_down_left
+                )
+            return
+
+        # ✨ Animación de carrera
+        if self.moving:
+            self.index += 0.2
+            if self.index >= len(self.run_right):
                 self.index = 0
-                self.image = self.run_right[0] if self.direction == "right" else self.run_left[0]
-        
+            self.image = (
+                self.run_right[int(self.index)]
+                if self.direction == "right"
+                else self.run_left[int(self.index)]
+            )
+            return
+
+        # ✨ Animación de idle
+        self.index = 0
+        self.image = (
+            self.run_right[0]
+            if self.direction == "right"
+            else self.run_left[0]
+        )
+
         # **¡Importante!** Se elimina la línea de self.sword.visible,
         # ya que la clase Sword se encarga de eso.
     
@@ -154,16 +186,17 @@ class Player(pygame.sprite.Sprite):
                     self.vel_y = 0
     
     def die(self, player_death_sound=None):
-        """Maneja el estado de muerte del jugador."""
         if self.alive:
-            self.alive = False
-            self.speed = 0 # Detiene el movimiento
-            # TODO: Aquí podrías iniciar una animación de 'game over' o
-            # simplemente detener el juego y reiniciar el nivel/mostrar un menú.
+            self.alive = False              # activa estado de muerte
+            self.speed = 0                  # no se puede mover
+            self.death_index = 0            # reinicia animación desde el frame 0
+            self.death_anim_finished = False
+
             if player_death_sound:
                 player_death_sound.play()
-            print("¡El jugador ha muerto!")
-            self.health= 5
+
+            print("¡El jugador ha muerto uwu!")
+
     
     def take_hit(self, damage=1):
         if not self.alive:

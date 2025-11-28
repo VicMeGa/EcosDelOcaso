@@ -8,6 +8,7 @@ import pytmx
 from boss import Boss
 from ffpyplayer.player import MediaPlayer
 
+
 pygame.init()
 WIDTH, HEIGHT = 800, 580
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -31,6 +32,39 @@ except pygame.error as e:
 # Colores
 WHITE = (255,255,255)
 GRAY = (100,100,100)
+
+
+def menu():
+    font = pygame.font.Font(None, 80)
+
+    # Fondo menú
+    fondo = pygame.image.load("./source/5.png").convert()
+
+    # Imagen del botón
+    img_btn = pygame.image.load("./menu/FreeFairyTaleUIPLAY.png").convert_alpha()
+    img_btn = pygame.transform.scale(img_btn, (250, 100))
+    btn_rect = img_btn.get_rect(center=(WIDTH // 2, 330))
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if btn_rect.collidepoint(event.pos):
+                    juego()  # inicia el juego uwu
+                    return   # regresa al menú cuando termine
+
+        screen.blit(fondo, (0, 0))
+
+        texto = font.render("Ecos del Ocaso", True, (255, 255, 255))
+        screen.blit(texto, (200, 100))
+
+        screen.blit(img_btn, btn_rect)
+
+        pygame.display.flip()
+        clock.tick(60)
 
 
 collision_tiles = []
@@ -365,130 +399,131 @@ bosses_sprites = pygame.sprite.Group()
 cargar_boss_zona(mapas_y_offsets, bosses_sprites)
 # --- BUCLE PRINCIPAL ---
 
-#reproducir_video_intro("source/videos/incio2.mp4")
+def juego():
+    #reproducir_video_intro("source/videos/incio2.mp4")
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    all_sprites.update(collision_tiles)
-    enemigos_sprites.update(collision_tiles)
-    bosses_sprites.update(collision_tiles, player)
-
-    screen.fill((0, 0, 0))
-
-    # 1. Ejecutar updates solo si el jugador está vivo
-    # 1. Ejecutar updates solo si el jugador está vivo
-    if player.alive:
         all_sprites.update(collision_tiles)
         enemigos_sprites.update(collision_tiles)
-    
-        # --- LÓGICA DE DETECCIÓN DE DAÑO AL JUGADOR (Corregida) ---
+        bosses_sprites.update(collision_tiles, player)
+
+        screen.fill((0, 0, 0))
+
+        # 1. Ejecutar updates solo si el jugador está vivo
+        # 1. Ejecutar updates solo si el jugador está vivo
+        if player.alive:
+            all_sprites.update(collision_tiles)
+            enemigos_sprites.update(collision_tiles)
         
-        # Obtener la lista de todos los enemigos que colisionan con el jugador
-        # El último False indica que no queremos eliminar los enemigos del grupo automáticamente
-        colliding_enemies = pygame.sprite.spritecollide(player, enemigos_sprites, False) 
+            # --- LÓGICA DE DETECCIÓN DE DAÑO AL JUGADOR (Corregida) ---
+            
+            # Obtener la lista de todos los enemigos que colisionan con el jugador
+            # El último False indica que no queremos eliminar los enemigos del grupo automáticamente
+            colliding_enemies = pygame.sprite.spritecollide(player, enemigos_sprites, False) 
+            
+            for enemy in colliding_enemies:
+                # ¡IMPORTANTE! Solo si el enemigo NO está en estado "dead" puede causar daño.
+                if enemy.state != "dead": 
+                    player.die(PLAYER_DEATH_SOUND)
+                    break # El jugador ha muerto, no necesitamos revisar más enemigos
+            colliding_bosses = pygame.sprite.spritecollide(player, bosses_sprites, False)
+            for boss in colliding_bosses:
+                if boss.state != "dead" and boss.state == "attack":
+                    player.take_hit()
+                    break  # Detiene más daños en el mismo frame uwu
+                if boss.health <= 0 and not boss.video_played:
+                    boss.video_played = True
+                    if boss.video_path:
+                        reproducir_video(boss.video_path)
+        if not player.alive:
+            fade_out() # Oscurece la pantalla
+
+            # Pausa temporal para el efecto de muerte
+            pygame.time.wait(300) 
+            
+            # --- REINICIO DE POSICIÓN Y ESTADO ---
+            # 1. Reiniciar posición del jugador
+            player.rect.topleft = player.initial_pos
+            player.vel_y = 0 # Reinicia gravedad
+            player.direction = "right"
+            
+            # 2. Restablecer el estado de vida del jugador
+            player.alive = True
+            player.speed = 3 # Restaura la velocidad original
+            
+            # 3. Recargar enemigos (si no quieres que los enemigos muertos revivan, omite esto)
+            #    Si los enemigos deben revivir al morir el jugador:
+            #    cargar_enemigos_zona(mapas_y_offsets, enemigos_sprites)
+
+            fade_in() # Aclara la pantalla
+
+        if sword.visible:
+            # 2. Usamos spritecollide para ver qué enemigos chocan con la espada.
+            #    False/False indica que no borramos la espada ni los enemigos automáticamente.
+            hit_enemies = pygame.sprite.spritecollide(sword, enemigos_sprites, False)
+
+            for enemy in hit_enemies:
+                # 3. Llamamos al método que implementamos en el enemigo
+                enemy.take_hit(ENEMY_DEATH_SOUND)
+
+        # --- CÁMARA ---
+        camera_x_offset = WIDTH // 2 - player.rect.centerx
+        if camera_x_offset > 0:
+            camera_x_offset = 0
+        elif camera_x_offset < WIDTH - MAP_WIDTH:
+            camera_x_offset = WIDTH - MAP_WIDTH
+
+        camera_y_offset = HEIGHT // 2 - player.rect.centery
+        if camera_y_offset > 0:
+            camera_y_offset = 0
+        elif camera_y_offset < HEIGHT - MAP_HEIGHT:
+            camera_y_offset = HEIGHT - MAP_HEIGHT
+
+        # --- DIBUJAR MAPAS CONTINUOS ---
+        render_map(camera_x_offset, camera_y_offset, mapas_y_offsets)
         
-        for enemy in colliding_enemies:
-            # ¡IMPORTANTE! Solo si el enemigo NO está en estado "dead" puede causar daño.
-            if enemy.state != "dead": 
-                player.die(PLAYER_DEATH_SOUND)
-                break # El jugador ha muerto, no necesitamos revisar más enemigos
-        colliding_bosses = pygame.sprite.spritecollide(player, bosses_sprites, False)
-        for boss in colliding_bosses:
-            if boss.state != "dead" and boss.state == "attack":
-                player.take_hit()
-                break  # Detiene más daños en el mismo frame uwu
-            if boss.health <= 0 and not boss.video_played:
-                boss.video_played = True
-                if boss.video_path:
-                    reproducir_video(boss.video_path)
-    if not player.alive:
-        fade_out() # Oscurece la pantalla
+        if player.rect.x > MAP_WIDTH - 50:  # Ajusta margen si quieres
+            fade_out()
+            zona_actual += 1
+            if zona_actual < len(zonas):
+                cargar_zona(zona_actual)
+                cargar_enemigos_zona(mapas_y_offsets, enemigos_sprites)
+                cargar_boss_zona(mapas_y_offsets, bosses_sprites)
+                player.rect.x = 50  # Posición inicial del nuevo mapa
+                fade_in()
+            else:
+                print("¡Fin del juego uwu!")
+                running = False
 
-        # Pausa temporal para el efecto de muerte
-        pygame.time.wait(300) 
+        bosses_sprites.update(collision_tiles, player)
+
+        for boss in bosses_sprites:
+            draw_x = boss.rect.x + camera_x_offset
+            draw_y = boss.rect.y + camera_y_offset
+            screen.blit(boss.image, (draw_x, draw_y))
+
+        for enemigo in enemigos_sprites:
+            draw_position_x = enemigo.rect.x + camera_x_offset
+            draw_position_y = enemigo.rect.y + camera_y_offset
+            screen.blit(enemigo.image, (draw_position_x, draw_position_y))
+            #print(f"🎨 Dibujando enemigo en pantalla: ({draw_position_x}, {draw_position_y})")  # Debug
+
+
+        # --- DIBUJAR SPRITES ---
+        for sprite in all_sprites:
+            if sprite is sword and not sprite.visible:
+                continue
+            draw_position_x = sprite.rect.x + camera_x_offset
+            draw_position_y = sprite.rect.y + camera_y_offset
+            screen.blit(sprite.image, (draw_position_x, draw_position_y))
+
         
-        # --- REINICIO DE POSICIÓN Y ESTADO ---
-        # 1. Reiniciar posición del jugador
-        player.rect.topleft = player.initial_pos
-        player.vel_y = 0 # Reinicia gravedad
-        player.direction = "right"
-        
-        # 2. Restablecer el estado de vida del jugador
-        player.alive = True
-        player.speed = 3 # Restaura la velocidad original
-        
-        # 3. Recargar enemigos (si no quieres que los enemigos muertos revivan, omite esto)
-        #    Si los enemigos deben revivir al morir el jugador:
-        #    cargar_enemigos_zona(mapas_y_offsets, enemigos_sprites)
+        pygame.display.flip()
+        clock.tick(60)
 
-        fade_in() # Aclara la pantalla
-
-    if sword.visible:
-        # 2. Usamos spritecollide para ver qué enemigos chocan con la espada.
-        #    False/False indica que no borramos la espada ni los enemigos automáticamente.
-        hit_enemies = pygame.sprite.spritecollide(sword, enemigos_sprites, False)
-
-        for enemy in hit_enemies:
-            # 3. Llamamos al método que implementamos en el enemigo
-            enemy.take_hit(ENEMY_DEATH_SOUND)
-
-    # --- CÁMARA ---
-    camera_x_offset = WIDTH // 2 - player.rect.centerx
-    if camera_x_offset > 0:
-        camera_x_offset = 0
-    elif camera_x_offset < WIDTH - MAP_WIDTH:
-        camera_x_offset = WIDTH - MAP_WIDTH
-
-    camera_y_offset = HEIGHT // 2 - player.rect.centery
-    if camera_y_offset > 0:
-        camera_y_offset = 0
-    elif camera_y_offset < HEIGHT - MAP_HEIGHT:
-        camera_y_offset = HEIGHT - MAP_HEIGHT
-
-    # --- DIBUJAR MAPAS CONTINUOS ---
-    render_map(camera_x_offset, camera_y_offset, mapas_y_offsets)
-    
-    if player.rect.x > MAP_WIDTH - 50:  # Ajusta margen si quieres
-        fade_out()
-        zona_actual += 1
-        if zona_actual < len(zonas):
-            cargar_zona(zona_actual)
-            cargar_enemigos_zona(mapas_y_offsets, enemigos_sprites)
-            cargar_boss_zona(mapas_y_offsets, bosses_sprites)
-            player.rect.x = 50  # Posición inicial del nuevo mapa
-            fade_in()
-        else:
-            print("¡Fin del juego uwu!")
-            running = False
-
-    bosses_sprites.update(collision_tiles, player)
-
-    for boss in bosses_sprites:
-        draw_x = boss.rect.x + camera_x_offset
-        draw_y = boss.rect.y + camera_y_offset
-        screen.blit(boss.image, (draw_x, draw_y))
-
-    for enemigo in enemigos_sprites:
-        draw_position_x = enemigo.rect.x + camera_x_offset
-        draw_position_y = enemigo.rect.y + camera_y_offset
-        screen.blit(enemigo.image, (draw_position_x, draw_position_y))
-        #print(f"🎨 Dibujando enemigo en pantalla: ({draw_position_x}, {draw_position_y})")  # Debug
-
-
-    # --- DIBUJAR SPRITES ---
-    for sprite in all_sprites:
-        if sprite is sword and not sprite.visible:
-            continue
-        draw_position_x = sprite.rect.x + camera_x_offset
-        draw_position_y = sprite.rect.y + camera_y_offset
-        screen.blit(sprite.image, (draw_position_x, draw_position_y))
-
-    
-    pygame.display.flip()
-    clock.tick(60)
-
-pygame.quit()
+#pygame.quit()
+menu()
