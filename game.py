@@ -163,27 +163,27 @@ def cargar_boss_zona(mapas_y_offsets, bosses_sprites):
                         minuz = 55
                     elif zona_actual == 2:
                         sprite_set = "kitsune"
-                        video_path = "source/videos/fianl boss2.mp4"
+                        video_path = "source/videos/capitulo3.mp4"
                         minuz = 100
                     elif zona_actual == 3:
                         sprite_set = "minotaur"
-                        video_path = "source/videos/fianl boss2.mp4"
+                        video_path = "source/videos/capitulo4.mp4"
                         minuz = 100
                     elif zona_actual == 5:
                         sprite_set = "ninja"
-                        video_path = "source/videos/fianl boss2.mp4"
+                        video_path = "source/videos/capitulo5.mp4"
                         minuz = 100
                     elif zona_actual == 6:
                         sprite_set = "knight"
-                        video_path = "source/videos/fianl boss2.mp4"
+                        video_path = "source/videos/capitulo6.mp4"
                         minuz = 130
                     elif zona_actual == 7:
                         sprite_set = "tengu1"
-                        video_path = "source/videos/fianl boss2.mp4"
+                        video_path = "source/videos/capitulo7.mp4"
                         minuz = 100
                     elif zona_actual == 8:
                         sprite_set = "tengu2"
-                        video_path = "source/videos/fianl boss2.mp4"
+                        video_path = "source/videos/capitulo8.mp4"
                         minuz = 100
                     else:
                         sprite_set = "gorgona" 
@@ -400,6 +400,7 @@ cargar_boss_zona(mapas_y_offsets, bosses_sprites)
 # --- BUCLE PRINCIPAL ---
 
 def juego():
+    global zona_actual
     #reproducir_video_intro("source/videos/incio2.mp4")
     running = True
     while running:
