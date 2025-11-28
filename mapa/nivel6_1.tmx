@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="100" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="8">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="100" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="9">
  <tileset firstgid="1" source="castle.tsx"/>
  <tileset firstgid="198" source="trees.tsx"/>
  <tileset firstgid="244" source="tiles.tsx"/>
@@ -175,6 +175,14 @@
   <object id="6" x="1588" y="502">
    <properties>
     <property name="patrol_end" type="int" value="1850"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="9" name="Boss">
+  <object id="8" x="2684" y="509">
+   <properties>
+    <property name="patrol_end" type="int" value="3170"/>
    </properties>
    <point/>
   </object>

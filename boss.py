@@ -13,6 +13,31 @@ class Boss(pygame.sprite.Sprite):
             lanid=8
             lande=10
             lanat=10
+        elif sprite_set== "minotaur":
+            lanw=12
+            lanid=10
+            lande=5
+            lanat=5
+        elif sprite_set== "ninja":
+            lanw=8
+            lanid=9
+            lande=5
+            lanat=6
+        elif sprite_set== "knight":
+            lanw=7
+            lanid=4
+            lande=6
+            lanat=5
+        elif sprite_set== "tengu1":
+            lanw=9
+            lanid=6
+            lande=6
+            lanat=4
+        elif sprite_set== "tengu2":
+            lanw=8
+            lanid=6
+            lande=6
+            lanat=6
         else:
             lanw=7
             lanid=5

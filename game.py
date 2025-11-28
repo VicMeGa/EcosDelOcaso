@@ -39,9 +39,9 @@ collision_tiles = []
 #mapas = [load_pygame(f) for f in map_files]
 #
 zonas = [
-    #['mapa/nivel1_0.tmx', 'mapa/nivel1_1.tmx'],
-    #['mapa/nivel2_0.tmx', 'mapa/nivel2_1.tmx'],
-    #['mapa/nivel3_0.tmx', 'mapa/nivel3_1.tmx'],
+    ['mapa/nivel1_0.tmx', 'mapa/nivel1_1.tmx'],
+    ['mapa/nivel2_0.tmx', 'mapa/nivel2_1.tmx'],
+    ['mapa/nivel3_0.tmx', 'mapa/nivel3_1.tmx'],
     ['mapa/nivel4_0.tmx', 'mapa/nivel4_1.tmx'],
     ['mapa/nivel5_0.tmx'],
     ['mapa/nivel5_1.tmx'],
@@ -119,7 +119,7 @@ def cargar_boss_zona(mapas_y_offsets, bosses_sprites):
             if layer.name.lower() == "boss":
                 print(f"🐍 Capa 'boss' detectada en mapa con offset {offset_x}")
                 for obj in layer:
-                    if zona_actual == 3:
+                    if zona_actual == 0:
                         sprite_set = "gorgona"
                         video_path = "source/videos/Primer jefe ecosdel.mp4"
                         minuz = 100
@@ -127,8 +127,28 @@ def cargar_boss_zona(mapas_y_offsets, bosses_sprites):
                         sprite_set = "boss2"
                         video_path = "source/videos/fianl boss2.mp4"
                         minuz = 55
-                    elif zona_actual == 0:
+                    elif zona_actual == 2:
                         sprite_set = "kitsune"
+                        video_path = "source/videos/fianl boss2.mp4"
+                        minuz = 100
+                    elif zona_actual == 3:
+                        sprite_set = "minotaur"
+                        video_path = "source/videos/fianl boss2.mp4"
+                        minuz = 100
+                    elif zona_actual == 5:
+                        sprite_set = "ninja"
+                        video_path = "source/videos/fianl boss2.mp4"
+                        minuz = 100
+                    elif zona_actual == 6:
+                        sprite_set = "knight"
+                        video_path = "source/videos/fianl boss2.mp4"
+                        minuz = 130
+                    elif zona_actual == 7:
+                        sprite_set = "tengu1"
+                        video_path = "source/videos/fianl boss2.mp4"
+                        minuz = 100
+                    elif zona_actual == 8:
+                        sprite_set = "tengu2"
                         video_path = "source/videos/fianl boss2.mp4"
                         minuz = 100
                     else:

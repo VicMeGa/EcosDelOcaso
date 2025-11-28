@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="2">
  <tileset firstgid="1" source="final.tsx"/>
  <tileset firstgid="6" source="background.tsx"/>
  <tileset firstgid="28" source="tiles.tsx"/>
@@ -118,4 +118,12 @@
 120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120,120
 </data>
  </layer>
+ <objectgroup id="7" name="Boss">
+  <object id="1" x="510" y="500">
+   <properties>
+    <property name="patrol_end" type="int" value="920"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
 </map>
