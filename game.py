@@ -7,6 +7,15 @@ from pytmx import TiledTileLayer, TiledImageLayer, TiledObjectGroup
 import pytmx
 from boss import Boss
 from ffpyplayer.player import MediaPlayer
+import os
+
+# Obtener la ruta base del proyecto
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+def get_asset_path(relative_path):
+    """Retorna la ruta absoluta del asset"""
+    return os.path.join(BASE_DIR, relative_path)
 
 
 pygame.init()
@@ -14,7 +23,7 @@ WIDTH, HEIGHT = 800, 580
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 
-MUSIC_FILE = 'source/sfx/A Nocturne for All.mp3'
+MUSIC_FILE = get_asset_path('source/sfx/A Nocturne for All.mp3')
 
 try:
     pygame.mixer.music.load(MUSIC_FILE)
@@ -23,25 +32,28 @@ except pygame.error as e:
     print(f"Error al cargar la música: {e}")
 
 try:
-    ENEMY_DEATH_SOUND = pygame.mixer.Sound('source/sfx/punch.mp3')
-    PLAYER_DEATH_SOUND = pygame.mixer.Sound('source/sfx/diePlayer.wav')
+    ENEMY_DEATH_SOUND = pygame.mixer.Sound(
+        get_asset_path('source/sfx/punch.mp3'))
+    PLAYER_DEATH_SOUND = pygame.mixer.Sound(
+        get_asset_path('source/sfx/diePlayer.wav'))
 except pygame.error as e:
     print(f"Error al cargar el sonido: {e}")
     ENEMY_DEATH_SOUND = PLAYER_DEATH_SOUND = None
 
 # Colores
-WHITE = (255,255,255)
-GRAY = (100,100,100)
+WHITE = (255, 255, 255)
+GRAY = (100, 100, 100)
 
 
 def menu():
     font = pygame.font.Font(None, 80)
 
     # Fondo menú
-    fondo = pygame.image.load("./source/5.png").convert()
+    fondo = pygame.image.load(get_asset_path("source/5.png")).convert()
 
     # Imagen del botón
-    img_btn = pygame.image.load("./menu/FreeFairyTaleUIPLAY.png").convert_alpha()
+    img_btn = pygame.image.load(get_asset_path(
+        "menu/FreeFairyTaleUIPLAY.png")).convert_alpha()
     img_btn = pygame.transform.scale(img_btn, (250, 100))
     btn_rect = img_btn.get_rect(center=(WIDTH // 2, 330))
 
@@ -69,22 +81,23 @@ def menu():
 
 collision_tiles = []
 # --- CARGAR VARIOS MAPAS ---
-#map_files = ['mapa/nivel2_0.tmx', 'mapa/nivel2_1.tmx']
-#mapas = [load_pygame(f) for f in map_files]
+# map_files = ['mapa/nivel2_0.tmx', 'mapa/nivel2_1.tmx']
+# mapas = [load_pygame(f) for f in map_files]
 #
 zonas = [
-    ['mapa/nivel1_0.tmx', 'mapa/nivel1_1.tmx'],
-    ['mapa/nivel2_0.tmx', 'mapa/nivel2_1.tmx'],
-    ['mapa/nivel3_0.tmx', 'mapa/nivel3_1.tmx'],
-    ['mapa/nivel4_0.tmx', 'mapa/nivel4_1.tmx'],
-    ['mapa/nivel5_0.tmx'],
-    ['mapa/nivel5_1.tmx'],
-    ['mapa/nivel6_0.tmx', 'mapa/nivel6_1.tmx'],
-    ['mapa/nivel7_0.tmx', 'mapa/nivel7_1.tmx'],
-    ['mapa/nivel8_0.tmx'],
+    [get_asset_path('mapa/nivel1_0.tmx'), get_asset_path('mapa/nivel1_1.tmx')],
+    [get_asset_path('mapa/nivel2_0.tmx'), get_asset_path('mapa/nivel2_1.tmx')],
+    [get_asset_path('mapa/nivel3_0.tmx'), get_asset_path('mapa/nivel3_1.tmx')],
+    [get_asset_path('mapa/nivel4_0.tmx'), get_asset_path('mapa/nivel4_1.tmx')],
+    [get_asset_path('mapa/nivel5_0.tmx')],
+    [get_asset_path('mapa/nivel5_1.tmx')],
+    [get_asset_path('mapa/nivel6_0.tmx'), get_asset_path('mapa/nivel6_1.tmx')],
+    [get_asset_path('mapa/nivel7_0.tmx'), get_asset_path('mapa/nivel7_1.tmx')],
+    [get_asset_path('mapa/nivel8_0.tmx')],
 ]
 
 zona_actual = 0
+
 
 def cargar_zona(zona_idx):
     global mapas, map_offsets, mapas_y_offsets, tmx_data, collision_tiles, MAP_WIDTH, MAP_HEIGHT
@@ -95,7 +108,7 @@ def cargar_zona(zona_idx):
     for i in range(1, len(mapas)):
         prev = mapas[i-1]
         map_offsets.append(map_offsets[-1] + prev.width * prev.tilewidth)
-    
+
     mapas_y_offsets = list(zip(mapas, map_offsets))
 
     # MAP_WIDTH de toda la zona
@@ -118,7 +131,9 @@ def cargar_zona(zona_idx):
     # Usamos el primer mapa para tmx_data, solo para render_map inicial
     tmx_data = mapas[0]
 
+
 cargar_zona(zona_actual)
+
 
 def cargar_enemigos_zona(mapas_y_offsets, enemigos_sprites):
     enemigos_sprites.empty()
@@ -126,9 +141,9 @@ def cargar_enemigos_zona(mapas_y_offsets, enemigos_sprites):
         print(f"🗺️ Procesando mapa con offset {offset_x}")
         for layer in tmx_data.layers:
             if isinstance(layer, pytmx.TiledObjectGroup):
-                #print("holaaaaa")
+                # print("holaaaaa")
                 if layer.name == "Enemy":
-                    #print("si se encontro capa")
+                    # print("si se encontro capa")
                     print(f"📦 Capa Enemy encontrada con {len(layer)} objetos")
                     for obj in layer:
                         x = obj.x + offset_x
@@ -139,7 +154,7 @@ def cargar_enemigos_zona(mapas_y_offsets, enemigos_sprites):
                             patrol_end = x + 200  # Patrulla hacia la DERECHA
                         else:
                             patrol_end += offset_x  # También sumar offset si viene de Tiled
-                        
+
                         enemigo = Enemy((x, y), (x, patrol_end))
                         enemigos_sprites.add(enemigo)
                         print(f"✅ Enemigo: inicio={x}, fin={patrol_end}")
@@ -155,49 +170,58 @@ def cargar_boss_zona(mapas_y_offsets, bosses_sprites):
                 for obj in layer:
                     if zona_actual == 0:
                         sprite_set = "gorgona"
-                        video_path = "source/videos/Primer jefe ecosdel.mp4"
+                        video_path = get_asset_path(
+                            "source/videos/Primer jefe ecosdel.mp4")
                         minuz = 100
                     elif zona_actual == 1:
                         sprite_set = "boss2"
-                        video_path = "source/videos/fianl boss2.mp4"
+                        video_path = get_asset_path(
+                            "source/videos/fianl boss2.mp4")
                         minuz = 55
                     elif zona_actual == 2:
                         sprite_set = "kitsune"
-                        video_path = "source/videos/capitulo3.mp4"
+                        video_path = get_asset_path(
+                            "source/videos/capitulo3.mp4")
                         minuz = 100
                     elif zona_actual == 3:
                         sprite_set = "minotaur"
-                        video_path = "source/videos/capitulo4.mp4"
+                        video_path = get_asset_path(
+                            "source/videos/capitulo4.mp4")
                         minuz = 100
                     elif zona_actual == 5:
                         sprite_set = "ninja"
-                        video_path = "source/videos/capitulo5.mp4"
+                        video_path = get_asset_path(
+                            "source/videos/capitulo5.mp4")
                         minuz = 100
                     elif zona_actual == 6:
                         sprite_set = "knight"
-                        video_path = "source/videos/capitulo6.mp4"
+                        video_path = get_asset_path(
+                            "source/videos/capitulo6.mp4")
                         minuz = 130
                     elif zona_actual == 7:
                         sprite_set = "tengu1"
-                        video_path = "source/videos/capitulo7.mp4"
+                        video_path = get_asset_path(
+                            "source/videos/capitulo7.mp4")
                         minuz = 100
                     elif zona_actual == 8:
                         sprite_set = "tengu2"
-                        video_path = "source/videos/capitulo8.mp4"
+                        video_path = get_asset_path(
+                            "source/videos/capitulo8.mp4")
                         minuz = 100
                     else:
-                        sprite_set = "gorgona" 
-                        video_path = "source/videos/fianl boss2.mp4"
+                        sprite_set = "gorgona"
+                        video_path = get_asset_path(
+                            "source/videos/fianl boss2.mp4")
                         minuz = 55
                     # posición global del boss sumando offset
                     pos = (obj.x + offset_x, obj.y - minuz)
                     print(f"🧿 Boss colocado en {pos}")
-                    
+
                     # rango de patrulla del boss
                     patrol_range = (pos[0] - 150, pos[0] + 150)
 
-
-                    boss = Boss(pos, patrol_range=patrol_range, sprite_set=sprite_set, health=20, video_path=video_path)
+                    boss = Boss(pos, patrol_range=patrol_range,
+                                sprite_set=sprite_set, health=20, video_path=video_path)
                     bosses_sprites.add(boss)
 
 
@@ -229,7 +253,8 @@ def reproducir_video(video_path):
             new_h = int(video_height * scale)
 
             # Convertir frame a superficie de pygame
-            frame_surf = pygame.image.frombuffer(img.to_bytearray()[0], img.get_size(), 'RGB')
+            frame_surf = pygame.image.frombuffer(
+                img.to_bytearray()[0], img.get_size(), 'RGB')
             frame_surf = pygame.transform.scale(frame_surf, (new_w, new_h))
 
             # Calcular offset para centrar
@@ -237,10 +262,11 @@ def reproducir_video(video_path):
             offset_y = (screen_height - new_h) // 2
 
             # Pintar en pantalla centrado
-            screen.fill((0,0,0))  # fondo negro
+            screen.fill((0, 0, 0))  # fondo negro
             screen.blit(frame_surf, (offset_x, offset_y))
             pygame.display.flip()
             clock.tick(30)
+
 
 # Calcular offsets acumulativos para que se dibujen seguidos
 map_offsets = [0]
@@ -255,7 +281,6 @@ tmx_data = mapas[0]
 TILESIZE = tmx_data.tilewidth
 MAP_WIDTH = sum(m.width * m.tilewidth for m in mapas)
 MAP_HEIGHT = tmx_data.height * TILESIZE
-
 
 
 # --- EXTRAER TILES DE COLISIÓN ---
@@ -285,10 +310,10 @@ enemigos_sprites = pygame.sprite.Group()
 cargar_enemigos_zona(mapas_y_offsets, enemigos_sprites)
 
 
-
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
 all_sprites.add(sword)
+
 
 def fade_out():
     fade = pygame.Surface((WIDTH, HEIGHT))
@@ -299,6 +324,7 @@ def fade_out():
         pygame.display.flip()
         pygame.time.delay(30)
 
+
 def fade_in():
     fade = pygame.Surface((WIDTH, HEIGHT))
     fade.fill((0, 0, 0))
@@ -307,6 +333,7 @@ def fade_in():
         screen.blit(fade, (0, 0))
         pygame.display.flip()
         pygame.time.delay(30)
+
 
 def reproducir_video_intro(video_path):
     player = MediaPlayer(video_path)
@@ -326,7 +353,7 @@ def reproducir_video_intro(video_path):
         if frame is not None:
             img, t = frame
             video_width, video_height = img.get_size()
-            
+
             # Escala para que quepa en la pantalla sin deformar
             scale_w = WIDTH / video_width
             scale_h = HEIGHT / video_height
@@ -335,7 +362,8 @@ def reproducir_video_intro(video_path):
             new_h = int(video_height * scale)
 
             # Convertir frame a superficie pygame
-            frame_surf = pygame.image.frombuffer(img.to_bytearray()[0], img.get_size(), 'RGB')
+            frame_surf = pygame.image.frombuffer(
+                img.to_bytearray()[0], img.get_size(), 'RGB')
             frame_surf = pygame.transform.scale(frame_surf, (new_w, new_h))
 
             # Calcular offsets para centrar
@@ -343,12 +371,14 @@ def reproducir_video_intro(video_path):
             offset_y = (HEIGHT - new_h) // 2
 
             # Dibujar video
-            screen.fill((0,0,0))
+            screen.fill((0, 0, 0))
             screen.blit(frame_surf, (offset_x, offset_y))
             pygame.display.flip()
             clock.tick(30)
 
 # --- FUNCIÓN DE RENDERIZADO MULTIMAPA ---
+
+
 def render_map(offset_x, offset_y, mapas_y_offsets=None):
     PARALLAX_FACTOR = 0.5
 
@@ -388,7 +418,7 @@ def render_map(offset_x, offset_y, mapas_y_offsets=None):
 
 
 if 'MUSIC_FILE' in locals() and not pygame.mixer.music.get_busy():
-    pygame.mixer.music.play(-1, 0.0) 
+    pygame.mixer.music.play(-1, 0.0)
     pygame.mixer.music.set_volume(0.40)
     print("Reproduciendo música de fondo...")
 
@@ -399,9 +429,10 @@ bosses_sprites = pygame.sprite.Group()
 cargar_boss_zona(mapas_y_offsets, bosses_sprites)
 # --- BUCLE PRINCIPAL ---
 
+
 def juego():
     global zona_actual
-    reproducir_video_intro("source/videos/incio2.mp4")
+    reproducir_video_intro(get_asset_path("source/videos/incio2.mp4"))
     running = True
     while running:
         for event in pygame.event.get():
@@ -419,19 +450,21 @@ def juego():
         if player.alive:
             all_sprites.update(collision_tiles)
             enemigos_sprites.update(collision_tiles)
-        
+
             # --- LÓGICA DE DETECCIÓN DE DAÑO AL JUGADOR (Corregida) ---
-            
+
             # Obtener la lista de todos los enemigos que colisionan con el jugador
             # El último False indica que no queremos eliminar los enemigos del grupo automáticamente
-            colliding_enemies = pygame.sprite.spritecollide(player, enemigos_sprites, False) 
-            
+            colliding_enemies = pygame.sprite.spritecollide(
+                player, enemigos_sprites, False)
+
             for enemy in colliding_enemies:
                 # ¡IMPORTANTE! Solo si el enemigo NO está en estado "dead" puede causar daño.
-                if enemy.state != "dead": 
+                if enemy.state != "dead":
                     player.die(PLAYER_DEATH_SOUND)
-                    break # El jugador ha muerto, no necesitamos revisar más enemigos
-            colliding_bosses = pygame.sprite.spritecollide(player, bosses_sprites, False)
+                    break  # El jugador ha muerto, no necesitamos revisar más enemigos
+            colliding_bosses = pygame.sprite.spritecollide(
+                player, bosses_sprites, False)
             for boss in colliding_bosses:
                 if boss.state != "dead" and boss.state == "attack":
                     player.take_hit()
@@ -441,31 +474,32 @@ def juego():
                     if boss.video_path:
                         reproducir_video(boss.video_path)
         if not player.alive:
-            fade_out() # Oscurece la pantalla
+            fade_out()  # Oscurece la pantalla
 
             # Pausa temporal para el efecto de muerte
-            pygame.time.wait(300) 
-            
+            pygame.time.wait(300)
+
             # --- REINICIO DE POSICIÓN Y ESTADO ---
             # 1. Reiniciar posición del jugador
             player.rect.topleft = player.initial_pos
-            player.vel_y = 0 # Reinicia gravedad
+            player.vel_y = 0  # Reinicia gravedad
             player.direction = "right"
-            
+
             # 2. Restablecer el estado de vida del jugador
             player.alive = True
-            player.speed = 3 # Restaura la velocidad original
-            
+            player.speed = 3  # Restaura la velocidad original
+
             # 3. Recargar enemigos (si no quieres que los enemigos muertos revivan, omite esto)
             #    Si los enemigos deben revivir al morir el jugador:
             #    cargar_enemigos_zona(mapas_y_offsets, enemigos_sprites)
 
-            fade_in() # Aclara la pantalla
+            fade_in()  # Aclara la pantalla
 
         if sword.visible:
             # 2. Usamos spritecollide para ver qué enemigos chocan con la espada.
             #    False/False indica que no borramos la espada ni los enemigos automáticamente.
-            hit_enemies = pygame.sprite.spritecollide(sword, enemigos_sprites, False)
+            hit_enemies = pygame.sprite.spritecollide(
+                sword, enemigos_sprites, False)
 
             for enemy in hit_enemies:
                 # 3. Llamamos al método que implementamos en el enemigo
@@ -486,7 +520,7 @@ def juego():
 
         # --- DIBUJAR MAPAS CONTINUOS ---
         render_map(camera_x_offset, camera_y_offset, mapas_y_offsets)
-        
+
         if player.rect.x > MAP_WIDTH - 50:  # Ajusta margen si quieres
             fade_out()
             zona_actual += 1
@@ -511,8 +545,7 @@ def juego():
             draw_position_x = enemigo.rect.x + camera_x_offset
             draw_position_y = enemigo.rect.y + camera_y_offset
             screen.blit(enemigo.image, (draw_position_x, draw_position_y))
-            #print(f"🎨 Dibujando enemigo en pantalla: ({draw_position_x}, {draw_position_y})")  # Debug
-
+            # print(f"🎨 Dibujando enemigo en pantalla: ({draw_position_x}, {draw_position_y})")  # Debug
 
         # --- DIBUJAR SPRITES ---
         for sprite in all_sprites:
@@ -522,9 +555,9 @@ def juego():
             draw_position_y = sprite.rect.y + camera_y_offset
             screen.blit(sprite.image, (draw_position_x, draw_position_y))
 
-        
         pygame.display.flip()
         clock.tick(60)
 
-#pygame.quit()
+
+# pygame.quit()
 menu()

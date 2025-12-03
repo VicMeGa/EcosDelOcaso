@@ -1,61 +1,78 @@
 import pygame
+import os
+
+# Obtener la ruta base del proyecto
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+def get_asset_path(relative_path):
+    """Retorna la ruta absoluta del asset"""
+    return os.path.join(BASE_DIR, relative_path)
+
 
 class Boss(pygame.sprite.Sprite):
-    def __init__(self, pos, patrol_range=(0,0), speed=2, detection_range=300, health=20, sprite_set="gorgona", video_path=None):  # 🔧 Cambio: detection_range=300
+    def __init__(self, pos, patrol_range=(0, 0), speed=2, detection_range=300, health=20, sprite_set="gorgona", video_path=None):  # 🔧 Cambio: detection_range=300
         super().__init__()
-        if sprite_set== "gorgona":
-            lanw=14
-            lanid=8
-            lande=4
-            lanat=8
-        elif sprite_set== "kitsune":
-            lanw=8
-            lanid=8
-            lande=10
-            lanat=10
-        elif sprite_set== "minotaur":
-            lanw=12
-            lanid=10
-            lande=5
-            lanat=5
-        elif sprite_set== "ninja":
-            lanw=8
-            lanid=9
-            lande=5
-            lanat=6
-        elif sprite_set== "knight":
-            lanw=7
-            lanid=4
-            lande=6
-            lanat=5
-        elif sprite_set== "tengu1":
-            lanw=9
-            lanid=6
-            lande=6
-            lanat=4
-        elif sprite_set== "tengu2":
-            lanw=8
-            lanid=6
-            lande=6
-            lanat=6
+        if sprite_set == "gorgona":
+            lanw = 14
+            lanid = 8
+            lande = 4
+            lanat = 8
+        elif sprite_set == "kitsune":
+            lanw = 8
+            lanid = 8
+            lande = 10
+            lanat = 10
+        elif sprite_set == "minotaur":
+            lanw = 12
+            lanid = 10
+            lande = 5
+            lanat = 5
+        elif sprite_set == "ninja":
+            lanw = 8
+            lanid = 9
+            lande = 5
+            lanat = 6
+        elif sprite_set == "knight":
+            lanw = 7
+            lanid = 4
+            lande = 6
+            lanat = 5
+        elif sprite_set == "tengu1":
+            lanw = 9
+            lanid = 6
+            lande = 6
+            lanat = 4
+        elif sprite_set == "tengu2":
+            lanw = 8
+            lanid = 6
+            lande = 6
+            lanat = 6
         else:
-            lanw=7
-            lanid=5
-            lande=5
-            lanat=7
+            lanw = 7
+            lanid = 5
+            lande = 5
+            lanat = 7
         self.video_played = False  # evita reproducir varias veces
         self.video_path = video_path
         # 🐾 Animaciones propias del boss
-        self.walk_right = [pygame.image.load(f"enemies/{sprite_set}/walk/walk{i}.png").convert_alpha() for i in range(1,lanw)]
-        self.walk_left = [pygame.transform.flip(img, True, False) for img in self.walk_right]
+        self.walk_right = [pygame.image.load(get_asset_path(
+            f"enemies/{sprite_set}/walk/walk{i}.png")).convert_alpha() for i in range(1, lanw)]
+        self.walk_left = [pygame.transform.flip(
+            img, True, False) for img in self.walk_right]
 
-        self.idle_right = [pygame.image.load(f"enemies/{sprite_set}/idle/idle{i}.png").convert_alpha() for i in range(1,lanid)]
-        self.idle_left = [pygame.transform.flip(img, True, False) for img in self.idle_right]
+        self.idle_right = [pygame.image.load(get_asset_path(
+            f"enemies/{sprite_set}/idle/idle{i}.png")).convert_alpha() for i in range(1, lanid)]
+        self.idle_left = [pygame.transform.flip(
+            img, True, False) for img in self.idle_right]
 
-        self.attack_right = [pygame.image.load(f"enemies/{sprite_set}/atack/atack{i}.png").convert_alpha() for i in range(1,lanat)]
-        self.attack_left = [pygame.transform.flip(img, True, False) for img in self.attack_right]
+        self.attack_right = [pygame.image.load(get_asset_path(
+            f"enemies/{sprite_set}/atack/atack{i}.png")).convert_alpha() for i in range(1, lanat)]
+        self.attack_left = [pygame.transform.flip(
+            img, True, False) for img in self.attack_right]
 
-        self.dead = [pygame.image.load(f"enemies/{sprite_set}/dead/dead{i}.png").convert_alpha() for i in range(1,lande)]
+        self.dead = [pygame.image.load(get_asset_path(
+            f"enemies/{sprite_set}/dead/dead{i}.png")).convert_alpha() for i in range(1, lande)]
 
         # Estado inicial
         self.image = self.idle_right[0]
@@ -68,9 +85,10 @@ class Boss(pygame.sprite.Sprite):
             self.end_x = pos[0] + 100
         else:
             self.start_x, self.end_x = patrol_range
-        
-        print(f"🎯 Boss creado en {pos} | Patrol: {self.start_x} -> {self.end_x}")
-        
+
+        print(
+            f"🎯 Boss creado en {pos} | Patrol: {self.start_x} -> {self.end_x}")
+
         self.speed = speed
         self.direction = 1  # 1 = derecha, -1 = izquierda
         self.anim_index = 0
@@ -94,7 +112,7 @@ class Boss(pygame.sprite.Sprite):
     def check_player(self, player):
         if not player or self.state == "dead":
             return
-        
+
         dx = player.rect.centerx - self.rect.centerx
         dy = player.rect.centery - self.rect.centery
         distance = (dx**2 + dy**2)**0.5
@@ -119,7 +137,7 @@ class Boss(pygame.sprite.Sprite):
 
     def move(self, tiles=None):
         old_x = self.rect.x
-        
+
         if self.state == "walk":
             if self.is_chasing:
                 # 🏃 Perseguir al jugador
@@ -177,7 +195,7 @@ class Boss(pygame.sprite.Sprite):
 
     def animate(self):
         self.anim_index += 0.2
-        
+
         if self.state == "walk":
             frames = self.walk_right if self.direction > 0 else self.walk_left
         elif self.state == "idle":

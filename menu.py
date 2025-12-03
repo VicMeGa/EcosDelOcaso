@@ -1,11 +1,20 @@
+from game import iniciarJuego  # función del juego uwu
 import pygame
+import os
 pygame.init()
+
+# Obtener la ruta base del proyecto
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+def get_asset_path(relative_path):
+    """Retorna la ruta absoluta del asset"""
+    return os.path.join(BASE_DIR, relative_path)
+
 
 WIDTH, HEIGHT = 800, 580
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
-
-from game import iniciarJuego  # función del juego uwu
 
 
 def menu_principal():
@@ -13,10 +22,11 @@ def menu_principal():
     font = pygame.font.Font(None, 80)
 
     # Fondo
-    fondo = pygame.image.load("./source/5.png").convert()
+    fondo = pygame.image.load(get_asset_path("source/5.png")).convert()
 
     # Botón con imagen
-    img_boton_jugar = pygame.image.load("./menu/FreeFairyTaleUIPLAY.png").convert_alpha()
+    img_boton_jugar = pygame.image.load(get_asset_path(
+        "menu/FreeFairyTaleUIPLAY.png")).convert_alpha()
     img_boton_jugar = pygame.transform.scale(img_boton_jugar, (250, 100))
     boton_jugar_rect = img_boton_jugar.get_rect()
     boton_jugar_rect.topleft = (280, 300)

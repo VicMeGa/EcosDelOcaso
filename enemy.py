@@ -1,21 +1,38 @@
 import pygame
+import os
+
+# Obtener la ruta base del proyecto
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+def get_asset_path(relative_path):
+    """Retorna la ruta absoluta del asset"""
+    return os.path.join(BASE_DIR, relative_path)
+
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, pos, patrol_range=(0,0), speed=1):
+    def __init__(self, pos, patrol_range=(0, 0), speed=1):
         super().__init__()
-        
+
         # Cargar animaciones
-        self.walk_right = [pygame.image.load(f"enemies/enemi1/walk/walk{i}.png").convert_alpha() for i in range(1,7)]
-        self.walk_left = [pygame.transform.flip(img, True, False) for img in self.walk_right]
-        self.idle_right = [pygame.image.load(f"enemies/enemi1/idle/idle{i}.png").convert_alpha() for i in range(1,5)]
-        self.idle_left = [pygame.transform.flip(img, True, False) for img in self.idle_right]
-        self.attack_right = [pygame.image.load(f"enemies/enemi1/atack/atack{i}.png").convert_alpha() for i in range(1,7)]
-        self.attack_left = [pygame.transform.flip(img, True, False) for img in self.attack_right]
-        self.dead = [pygame.image.load(f"enemies/enemi1/dead/dead{i}.png").convert_alpha() for i in range(1,7)]
-        
+        self.walk_right = [pygame.image.load(get_asset_path(
+            f"enemies/enemi1/walk/walk{i}.png")).convert_alpha() for i in range(1, 7)]
+        self.walk_left = [pygame.transform.flip(
+            img, True, False) for img in self.walk_right]
+        self.idle_right = [pygame.image.load(get_asset_path(
+            f"enemies/enemi1/idle/idle{i}.png")).convert_alpha() for i in range(1, 5)]
+        self.idle_left = [pygame.transform.flip(
+            img, True, False) for img in self.idle_right]
+        self.attack_right = [pygame.image.load(get_asset_path(
+            f"enemies/enemi1/atack/atack{i}.png")).convert_alpha() for i in range(1, 7)]
+        self.attack_left = [pygame.transform.flip(
+            img, True, False) for img in self.attack_right]
+        self.dead = [pygame.image.load(get_asset_path(
+            f"enemies/enemi1/dead/dead{i}.png")).convert_alpha() for i in range(1, 7)]
+
         self.image = self.idle_right[0]
         self.rect = self.image.get_rect(topleft=pos)
-        
+
         self.speed = speed
         self.direction = 1
         self.start_x, self.end_x = patrol_range
@@ -46,15 +63,15 @@ class Enemy(pygame.sprite.Sprite):
             frames = self.dead
         else:
             frames = [self.image]
-        
+
         if self.anim_index >= len(frames):
             if self.state == "dead":
                 self.anim_index = len(frames) - 1  # queda en el último frame
             else:
                 self.anim_index = 0
-        
+
         self.image = frames[int(self.anim_index)]
-    
+
     def handle_collision(self, tiles):
         if tiles is None:
             return

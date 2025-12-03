@@ -1,53 +1,72 @@
 import pygame
+import os
+
+# Obtener la ruta base del proyecto
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+def get_asset_path(relative_path):
+    """Retorna la ruta absoluta del asset"""
+    return os.path.join(BASE_DIR, relative_path)
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos):
         super().__init__()
         self.run_right = [pygame.transform.scale(
-                      pygame.image.load(f'source/player/run/{i}.png').convert_alpha(),
-                      (40, 50)) for i in range(7)]
-        self.run_left = [pygame.transform.flip(img, True, False) for img in self.run_right]
+            pygame.image.load(get_asset_path(
+                f'source/player/run/{i}.png')).convert_alpha(),
+            (40, 50)) for i in range(7)]
+        self.run_left = [pygame.transform.flip(
+            img, True, False) for img in self.run_right]
         self.index = 0
-        self.image = self.run_right[self.index] 
+        self.image = self.run_right[self.index]
         self.rect = self.image.get_rect(topleft=pos)
-        self.dead = [pygame.image.load(f"source/player/death/{i}.png").convert_alpha() for i in range(8)]
+        self.dead = [pygame.image.load(get_asset_path(
+            f"source/player/death/{i}.png")).convert_alpha() for i in range(8)]
         self.direction = "right"
         self.speed = 3
         self.initial_pos = pos
         self.vel_y = 0
         self.jumping = False
         self.alive = True
-        self.health = 5 
+        self.health = 5
         self.death_index = 0
         self.death_anim_finished = False
 
         # Dimensiones del personaje (las mismas que usaste para correr/atacar)
-        PLAYER_SIZE = (40, 50) 
+        PLAYER_SIZE = (40, 50)
 
         # Sprites de Salto (solo una imagen para subir y una para bajar)
         self.jump_up_right = pygame.transform.scale(
-            pygame.image.load('source/player/jump/0.png').convert_alpha(),
+            pygame.image.load(get_asset_path(
+                'source/player/jump/0.png')).convert_alpha(),
             PLAYER_SIZE)
-            
+
         self.jump_down_right = pygame.transform.scale(
-            pygame.image.load('source/player/fall/0.png').convert_alpha(),
+            pygame.image.load(get_asset_path(
+                'source/player/fall/0.png')).convert_alpha(),
             PLAYER_SIZE)
 
-        self.jump_up_left = pygame.transform.flip(self.jump_up_right, True, False)
-        self.jump_down_left = pygame.transform.flip(self.jump_down_right, True, False)
+        self.jump_up_left = pygame.transform.flip(
+            self.jump_up_right, True, False)
+        self.jump_down_left = pygame.transform.flip(
+            self.jump_down_right, True, False)
 
-        #Ataque
+        # Ataque
         self.attack_right = [pygame.transform.scale(
-                        pygame.image.load(f'source/player/attack/{i}.png').convert_alpha(),
-                        (40, 50)) for i in range(6)]
+            pygame.image.load(get_asset_path(
+                f'source/player/attack/{i}.png')).convert_alpha(),
+            (40, 50)) for i in range(6)]
 
-        self.attack_left = [pygame.transform.flip(img, True, False) for img in self.attack_right]
+        self.attack_left = [pygame.transform.flip(
+            img, True, False) for img in self.attack_right]
 
         self.attacking = False
         self.attack_index = 0
-        #self.visible = False 
+        # self.visible = False
 
-    def update(self,tiles):
+    def update(self, tiles):
         self.move(tiles)
         self.handle_attack()
         self.animate()
@@ -163,13 +182,13 @@ class Player(pygame.sprite.Sprite):
 
         # **¡Importante!** Se elimina la línea de self.sword.visible,
         # ya que la clase Sword se encarga de eso.
-    
+
     def handle_attack(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_z] and not self.attacking:
             self.attacking = True
-            self.attack_index = 0 # Reinicia el índice al empezar a atacar
-    
+            self.attack_index = 0  # Reinicia el índice al empezar a atacar
+
     def check_collision(self, dx, dy, tiles):
         for tile in tiles:
             if self.rect.colliderect(tile):
@@ -184,7 +203,7 @@ class Player(pygame.sprite.Sprite):
                 if dy < 0:  # golpea el techo
                     self.rect.top = tile.bottom
                     self.vel_y = 0
-    
+
     def die(self, player_death_sound=None):
         if self.alive:
             self.alive = False              # activa estado de muerte
@@ -197,7 +216,6 @@ class Player(pygame.sprite.Sprite):
 
             print("¡El jugador ha muerto uwu!")
 
-    
     def take_hit(self, damage=1):
         if not self.alive:
             return
