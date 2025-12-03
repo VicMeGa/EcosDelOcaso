@@ -401,7 +401,7 @@ cargar_boss_zona(mapas_y_offsets, bosses_sprites)
 
 def juego():
     global zona_actual
-    #reproducir_video_intro("source/videos/incio2.mp4")
+    reproducir_video_intro("source/videos/incio2.mp4")
     running = True
     while running:
         for event in pygame.event.get():
